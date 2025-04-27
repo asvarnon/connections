@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.connections.mappers.ItemMapper">
+
+
+    <select id="getItemList" resultType="com.home.connections.dto.ItemDto">
+        SELECT
+            id as itemId,
+            category as itemCategory,
+            description as itemDescription
+        FROM items order by itemId asc
+    </select>
+
+
+</mapper>
