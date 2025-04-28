@@ -12,13 +12,32 @@ public class BotEventListener extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;  // Ignore messages from other bots
         }
-
         String message = event.getMessage().getContentRaw();
+        String prefix = "!";
 
-        // Simple command handling
-        if (message.equalsIgnoreCase("!hello")) {
-            event.getChannel().sendMessage("Hello, " + event.getAuthor().getName() + "!").queue();
+        // Respond to specific commands
+        if (message.startsWith(prefix)) {
+            String command = message.substring(prefix.length()).toLowerCase();
+
+            switch (command) {
+                case "ping" -> {
+                    event.getChannel().sendMessage("Pong!").queue();
+                }
+                case "help" -> {
+                    event.getChannel().sendMessage("""
+                        **Available Commands**:
+                        `!ping` - Responds with Pong!
+                        `!help` - Lists available commands.
+                        """).queue();
+                }
+                default -> {
+                    event.getChannel()
+                            .sendMessage("Unknown command. Type `!help` for the list of commands.")
+                            .queue();
+                }
+            }
         }
+
     }
 
 }
