@@ -1,6 +1,6 @@
-package com.home.connections.services.commands;
+package com.home.connections.command.commands;
 
-import com.home.connections.services.Command;
+import com.home.connections.command.Command;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 

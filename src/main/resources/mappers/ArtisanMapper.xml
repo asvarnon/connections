@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.connections.mappers.ArtisanMapper">
+
+
+    <!-- Query to Retrieve All Artisans -->
+    <select id="getAllArtisans" resultType="com.home.connections.dto.ArtisanDto">
+        SELECT
+            artisan_id AS artisanId,
+            artisan_name AS artisanName,
+            artisan_type AS artisanType
+        FROM ARTISAN
+        ORDER BY artisan_id ASC
+    </select>
+
+    <!-- Query to Retrieve Artisans by Type -->
+    <select id="getArtisansByType" resultType="com.home.connections.dto.ArtisanDto">
+        SELECT
+            artisan_id AS artisanId,
+            artisan_name AS artisanName,
+            artisan_type AS artisanType
+        FROM ARTISAN
+        WHERE LOWER(artisan_type) = LOWER(#{artisanType})
+        ORDER BY artisan_id ASC
+    </select>
+
+
+</mapper>

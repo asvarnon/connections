@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.connections.mappers.PlayerMapper">
+
+
+    <select id="getAllPlayers" resultType="com.home.connections.dto.PlayerDto">
+        SELECT
+            p.player_id AS playerId,
+            p.player_name AS playerName,
+            pa.archetype_name AS archetypeName
+        FROM PLAYER p
+                 INNER JOIN PRIMARY_ARCHETYPE pa ON p.primary_archetype_id = pa.primary_archetype_id
+        ORDER BY p.player_id ASC
+    </select>
+
+    <!-- Query to Get Players by Archetype Name -->
+    <select id="getPlayersByArchetype" resultType="com.home.connections.dto.PlayerDto" parameterType="String">
+        SELECT
+            p.player_id AS playerId,
+            p.player_name AS playerName,
+            pa.archetype_name AS archetypeName
+        FROM PLAYER p
+                 INNER JOIN PRIMARY_ARCHETYPE pa ON p.primary_archetype_id = pa.primary_archetype_id
+        WHERE LOWER(pa.archetype_name) = LOWER(#{archetypeName})
+        ORDER BY p.player_id ASC
+    </select>
+
+
+
+</mapper>

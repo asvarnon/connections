@@ -1,13 +1,9 @@
-package com.home.connections.services.impl;
-
-import com.home.connections.services.Command;
-import com.home.connections.services.commands.*;
+package com.home.connections.command;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service

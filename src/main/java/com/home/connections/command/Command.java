@@ -1,4 +1,4 @@
-package com.home.connections.services;
+package com.home.connections.command;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 

@@ -1,7 +1,6 @@
 package com.home.connections.listener;
 
-import com.home.connections.services.Command;
-import com.home.connections.services.impl.CommandManager;
+import com.home.connections.command.CommandManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
