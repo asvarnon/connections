@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    bootstrap:
+      enabled: true
+  application:
+    name: Connections
+    config:
+      import: optional:file:.env[.properties]
