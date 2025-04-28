@@ -5,6 +5,7 @@ import com.home.connections.services.DiscordBotService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -18,6 +19,9 @@ public class DiscordBotServiceImpl implements DiscordBotService {
 
     private JDA jda; // Store the JDA instance for future use if needed
 
+    @Autowired
+    private BotEventListener botEventListener;
+
 
     @PostConstruct
     public void startBot() throws Exception {
@@ -30,7 +34,7 @@ public class DiscordBotServiceImpl implements DiscordBotService {
         );
 
         builder.setActivity(Activity.playing("Spring Boot & Discord!")); // Set bot's activity
-        builder.addEventListeners(new BotEventListener()); // Register your event listeners
+        builder.addEventListeners(botEventListener); // Register your event listeners
 
         // Build and wait for the bot to be ready
         this.jda = builder.build();

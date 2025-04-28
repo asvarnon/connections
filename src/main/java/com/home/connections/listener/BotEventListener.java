@@ -1,11 +1,21 @@
 package com.home.connections.listener;
 
+import com.home.connections.services.Command;
+import com.home.connections.services.impl.CommandManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BotEventListener extends ListenerAdapter {
+
+    private final CommandManager commandManager;
+
+    @Autowired
+    public BotEventListener(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -15,28 +25,12 @@ public class BotEventListener extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
         String prefix = "!";
 
-        // Respond to specific commands
+        // Check if the message starts with the prefix and handle commands
         if (message.startsWith(prefix)) {
-            String command = message.substring(prefix.length()).toLowerCase();
-
-            switch (command) {
-                case "ping" -> {
-                    event.getChannel().sendMessage("Pong!").queue();
-                }
-                case "help" -> {
-                    event.getChannel().sendMessage("""
-                        **Available Commands**:
-                        `!ping` - Responds with Pong!
-                        `!help` - Lists available commands.
-                        """).queue();
-                }
-                default -> {
-                    event.getChannel()
-                            .sendMessage("Unknown command. Type `!help` for the list of commands.")
-                            .queue();
-                }
-            }
+            String commandName = message.substring(prefix.length()).split(" ")[0]; // Extract the command
+            commandManager.processCommand(commandName, event); // Route the command
         }
+
 
     }
 
