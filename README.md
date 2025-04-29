@@ -1,159 +1,140 @@
-# connections
+# InfoCommand Bot
 
-GENERAL:
+The `InfoCommand` is a highly configurable and dynamic command in our bot, allowing users to fetch information about various entities like `players` and `artisans` with different criteria.
 
-This is a general workspace for any testing of data structures, implementations, documentation, etc to learn from while building out basic tools
+## Overview
 
-# InfoCommand
+The `InfoCommand` works by interpreting user inputs and executing specific subcommands or dynamic handlers to fetch the required information. The bot provides a default behavior for registered static commands and also handles dynamic queries for more flexibility.
 
-The `InfoCommand` is an integral part of the Connections project, handling user commands related to retrieving information about **players** and **artisans**. This command supports dynamic queries and modular structure, enabling easy access to data and effortless scalability for new features.
+### Basic Usage
 
----
+The command can be invoked using the following syntax:
 
-## **Usage**
-
-The `InfoCommand` processes user commands starting with `!info` followed by specific **entities** (`player` or `artisan`) and optional **subcommands** or **filters**.
-
-### **Basic Command Syntax**
-
-### **Examples:**
-
-#### **Player Queries:**
-- `!info player`: Lists all players along with their archetypes.
-- `!info player full`: Lists all players and their associated artisans.
-- `!info player name John Doe`: Retrieves details about the player **John Doe**.
-- `!info player archetype Cleric`: Lists players with the archetype **Cleric**.
-
-#### **Artisan Queries:**
-- `!info artisan`: Lists all artisans.
-- `!info artisan type Crafting`: Retrieves artisans categorized under the type **Crafting**.
-- `!info artisan Carpentry`: A dynamic query to find artisans specializing in **Carpentry**.
+- **entity**: The type of information to retrieve (e.g., `player`, `artisan`).
+- **criteria**: Additional filtering or specification for the desired result (optional).
 
 ---
 
-## **For Developers**
+## Current Commands
 
-The `InfoCommand` is designed with modularity and maintainability in mind. Its architecture is broken into two primary components:
+Here is a list of currently supported commands:
 
-1. **Handlers**:
-    - `PlayerInfoHandler`: Handles all player-related operations.
-    - `ArtisanInfoHandler`: Handles all artisan-related operations.
+### Static Commands
+These commands return all available information for a specific entity.
 
-2. **SubCommand Registry**:
-    - A flexible map of subcommands (`subCommandRegistry`) drives the dispatching of actions based on user input.
-    - Each subcommand is mapped to a dedicated handler method or lambda expression for processing.
+- `!info player`: Lists all registered players.
+- `!info artisan`: Lists all available artisans.
 
----
+### Dynamic Commands
+These commands include criteria to narrow down the search for more specific results.
 
-### **Code Structure**
-
-- **Handlers**:  
-  Located in `com.home.connections.command.handlers`, the `PlayerInfoHandler` and `ArtisanInfoHandler` encapsulate all business logic for their respective domains.
-
-    - **Methods in Handlers:**
-        - **PlayerInfoHandler**:
-            - `handleListAll`: List all players.
-            - `handleByArchetype`: Filter players by archetype.
-            - `handleWithArtisans`: Show players associated with artisans.
-            - `handleByName`: Retrieve details about a specific player by name.
-        - **ArtisanInfoHandler**:
-            - `handleListAll`: List all artisans.
-            - `handleByType`: Filter artisans by type.
-            - `handleDynamicQuery`: Perform a dynamic lookup based on user input.
-
-- **Command Execution**:  
-  The entry point is `InfoCommand`, which handles message parsing and delegates subcommands dynamically to the appropriate handler based on user input.
+- **Player Commands**:
+    - `!info player <archetype>`: Fetches players by their archetype (e.g., healer, DPS).
+    - `!info player <name>`: Fetches detailed information about a player by name.
+- **Artisan Commands**:
+    - `!info artisan <artisan-type>`: Fetches all artisans of a specific artisan type (e.g., blacksmith, alchemist).
 
 ---
 
-### **Processing User Commands**
+## Features
 
-1. **SubCommand Registry:**
-    - The `registerSubCommands` method populates the `subCommandRegistry` with supported commands and their corresponding actions.
+Here are the updated features of the `InfoCommand`:
+
+1. **Static Subcommands for Default Listings**
+    - Supported entities have predefined static subcommands to list all relevant information.
     - Example:
-      ```java
-      subCommandRegistry.put("player name", (args, event) -> playerInfoHandler.handleByName(String.join(" ", args), event));
-      subCommandRegistry.put("artisan type", (args, event) -> {
-          if (args.isEmpty()) {
-              event.getChannel().sendMessage("❌ Please provide an artisan type.").queue();
-          } else {
-              artisanInfoHandler.handleByType(args.get(0), event);
-          }
-      });
-      ```
+        - `!info player`: Lists all players.
+        - `!info artisan`: Lists all artisans.
 
-2. **Dynamic Command Parsing:**
-    - The `execute` method splits the user input:
-        - Identifies the subcommand and filters.
-        - Finds the appropriate handler in the registry.
-        - Handles invalid commands gracefully.
+2. **Dynamic Criteria Handling**
+    - The bot supports dynamic queries for more specific lookups.
+    - Dynamic queries rely on a `DynamicValueService` to fetch or resolve dynamic values based on the provided criteria.
+    - Example:
+        - `!info player <archetype>`: Fetches players by their archetype.
+        - `!info player <name>`: Fetches a player by name.
+        - `!info artisan <artisan-type>`: Fetches artisans by type.
 
-3. **Handler Methods**:
-    - The handlers provide specialized logic for processing queries and formatting responses. They directly interact with the `PlayerService` and `ArtisanService` to fetch necessary data.
+3. **Error Handling**
+    - Graceful error messages when:
+        - The user provides insufficient or incorrect input.
+        - Unsupported dynamic criteria are provided.
+
+4. **Dynamic Value Types**
+   The `DynamicValueService` processes multiple types of dynamic values including:
+    - `archetype`: Filters players by their archetype (e.g., healer, DPS).
+    - `name`: Filters players or artisans by their name.
+    - `artisan-type`: Filters artisans by type (e.g., blacksmith, alchemist).
+
+5. **Fallback for Unknown Entities**
+    - If the entity is not recognized, the command provides an error message (`Unknown entity`).
+    - If specific criteria are invalid, a user-friendly error is displayed.
 
 ---
 
-### **Adding New SubCommands**
+### Examples
 
-To extend the functionality:
-1. Add a handler method in the appropriate handler class (e.g., `PlayerInfoHandler` or `ArtisanInfoHandler`).
-2. Register the new subcommand in the `subCommandRegistry` located in `InfoCommand`.
+1. **Basic List-All Commands**
+    - `!info player`: Shows all registered players.
+    - `!info artisan`: Shows all available artisans.
+
+2. **Dynamic Queries**
+    - `!info player healer`: Fetches all players categorized as `healer`.
+    - `!info player JohnDoe`: Fetches the player named `JohnDoe`.
+    - `!info artisan blacksmith`: Fetches all artisans belonging to the `blacksmith` artisan type.
+
+3. **Empty or Invalid Input**
+    - `!info`: Displays the usage guide (`❌ Usage: !info <entity> [criteria]`).
+    - `!info unknownentity`: Displays an error (`❌ Unknown entity: 'unknownentity'.`).
+    - `!info artisan invalidtype`: Displays an error (`❌ Invalid artisan lookup for 'invalidtype'. Check input.`).
+
+---
+
+## Command Workflow
+
+1. The command parses the input to extract the `entity` and optional `criteria`.
+2. It checks if the `entity` has a static subcommand for a list-all operation (e.g., all players or artisans).
+3. If no static subcommand exists, it attempts to resolve the `entity` and `criteria` dynamically using the `DynamicValueService`.
+4. Based on the type of criteria (`archetype`, `name`, `artisan-type`), specific handler functions are invoked to fetch and display results.
+5. If no valid handler or dynamic value is found, fallback logic or error messages are triggered.
+
+---
+
+## Setting Up the Command
+
+### Adding New Static Subcommands
+
+To add new list-all functionality for additional entities:
+1. Register the `SubCommand` in the `registerStaticSubCommands()` method.
+2. Provide an implementation for the `SubCommand` in the respective handler.
 
 Example:
 
----
+### Extending Dynamic Criteria
 
-## **Features**
+To expand the range of supported dynamic values:
+1. Add new types to the `DynamicValue` entity.
+2. Handle the new types in the `processDynamicValue()` method.
 
-- **Dynamic Query Handling**: Parse and handle flexible queries dynamically, such as `!info artisan Carpentry`.
-- **Error Feedback**: Gracefully handles invalid subcommands or missing filters with appropriate messages.
-- **Modular Design**: Clear separation of player and artisan concerns into `PlayerInfoHandler` and `ArtisanInfoHandler`.
-- **Scalable Architecture**: Supports easy addition of new subcommands.
+Example:
 
----
+### Error Customization
 
-## **Key Classes and Methods**
-
-1. **InfoCommand.java**
-    - `execute`: Parses user commands and delegates to the correct subcommand handler.
-    - `registerSubCommands`: Maps commands to their handlers using a registry.
-
-2. **PlayerInfoHandler.java**
-    - Core logic for player-related queries such as `name`, `archetype`, and `full`.
-
-3. **ArtisanInfoHandler.java**
-    - Core logic for artisan-related queries such as `type` or dynamic artisan lookups.
+Modify fallback or error messages in the various methods to tailor the bot's responses to your preferences.
 
 ---
 
-## **Supported Entities & Commands**
+## Dependencies
 
-| **Entity** | **Subcommand**             | **Description**                                                                 |
-|------------|----------------------------|---------------------------------------------------------------------------------|
-| `player`   |                            | Lists all players.                                                             |
-|            | `full`                     | Lists all players and their associated artisans.                               |
-|            | `name {name}`              | Retrieves details of the specified player by name.                             |
-|            | `archetype {name}`         | Retrieves a list of players with the specified archetype.                      |
-| `artisan`  |                            | Lists all artisans.                                                            |
-|            | `type {type}`              | Lists all artisans of a specified type (e.g., `Crafting`).                     |
-|            | `{dynamic query}`          | Performs a dynamic lookup for artisans based on the user’s input (e.g., Carpentry). |
+- **JDA (Java Discord API)**: For interacting with Discord servers.
+- **Spring Framework**: For dependency injection and service management.
+- **Lombok (Optional)**: For reducing boilerplate in code.
 
 ---
 
-## **Error Handling**
+## Future Improvements
 
-The `InfoCommand` and its handlers provide detailed error feedback for common issues:
-- **Missing Arguments:** Example: `!info artisan type` with no type provided.
-- **Unknown Commands:** Example: Subcommands like `!info player skill` not registered.
-- **Empty Results:** Example: Query returns no matching players or artisans.
+- Expand support for additional entities and criteria.
+- Add configurable responses for dynamic queries.
+- Add caching for frequently queried dynamic values.
 
----
-
-## **Future Improvements**
-
-- Support for additional filters (e.g., artisan level queries, player guilds).
-- Add paginated responses for large datasets (e.g., when lists exceed message limits).
-
----
-
-By delegating logic to `PlayerInfoHandler` and `ArtisanInfoHandler`, `InfoCommand` is designed for **extensibility**, **clarity**, and **ease of testing**. Developers can confidently extend or maintain features with minimal risk of introducing bugs.
+For contributions or issues, feel free to open a pull request or create an issue in the repository.
