@@ -11,7 +11,8 @@
             pa.archetype_name AS archetypeName
         FROM PLAYER p
                  INNER JOIN PRIMARY_ARCHETYPE pa ON p.primary_archetype_id = pa.primary_archetype_id
-        ORDER BY p.player_id ASC
+        WHERE p.IS_ACTIVE = 'Y'
+        ORDER BY p.player_name ASC
     </select>
 
     <!-- Query to Get Players by Archetype Name -->
@@ -22,8 +23,8 @@
             pa.archetype_name AS archetypeName
         FROM PLAYER p
                  INNER JOIN PRIMARY_ARCHETYPE pa ON p.primary_archetype_id = pa.primary_archetype_id
-        WHERE LOWER(pa.archetype_name) = LOWER(#{archetypeName})
-        ORDER BY p.player_id ASC
+        WHERE (LOWER(pa.archetype_name) = LOWER(#{archetypeName})) AND p.IS_ACTIVE = 'Y'
+        ORDER BY p.player_name ASC
     </select>
 
     <select id="getPlayersFull" resultMap="PlayersFullResultMap">
@@ -39,6 +40,7 @@
                  LEFT JOIN PRIMARY_ARCHETYPE a ON p.primary_archetype_id = a.primary_archetype_id
                  LEFT JOIN PLAYER_ARTISAN pa ON pa.player_id = p.player_id
                  LEFT JOIN ARTISAN ar ON pa.artisan_id = ar.artisan_id
+        WHERE p.IS_ACTIVE = 'Y'
         ORDER BY p.player_name
     </select>
 
@@ -55,7 +57,7 @@
                  LEFT JOIN PRIMARY_ARCHETYPE a ON p.primary_archetype_id = a.primary_archetype_id
                  LEFT JOIN PLAYER_ARTISAN pa ON pa.player_id = p.player_id
                  LEFT JOIN ARTISAN ar ON pa.artisan_id = ar.artisan_id
-        WHERE LOWER(p.player_name) = LOWER(#{playerName})
+        WHERE (LOWER(p.player_name) = LOWER(#{playerName})) AND p.IS_ACTIVE = 'Y'
         ORDER BY p.player_name
     </select>
 
