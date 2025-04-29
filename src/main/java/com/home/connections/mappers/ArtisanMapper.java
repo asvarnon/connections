@@ -1,6 +1,7 @@
 package com.home.connections.mappers;
 
 import com.home.connections.dto.ArtisanDto;
+import com.home.connections.dto.PlayerDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,6 +15,8 @@ public interface ArtisanMapper {
 
     // Retrieve artisans by their type (e.g., Gathering, Processing, Crafting)
     List<ArtisanDto> getArtisansByType(@Param("artisanType") String artisanType);
+
+    List<PlayerDto> getPlayersByArtisan(@Param("artisanName") String artisanName);
 
 
 }

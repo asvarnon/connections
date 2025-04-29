@@ -25,5 +25,18 @@
         ORDER BY artisan_id ASC
     </select>
 
+    <!-- Retrieve players associated with a specific artisan -->
+    <select id="getPlayersByArtisan" parameterType="string" resultType="com.home.connections.dto.PlayerDto">
+        SELECT
+            p.player_id AS playerId,
+            p.player_name AS playerName,
+            p.primary_archetype_id AS primaryArchetypeId,
+            p.is_active AS isActive
+        FROM PLAYER p
+                 INNER JOIN PLAYER_ARTISAN pa ON p.player_id = pa.player_id
+                 INNER JOIN ARTISAN a ON pa.artisan_id = a.artisan_id
+        WHERE LOWER(a.artisan_name) = LOWER(#{artisanName})
+    </select>
+
 
 </mapper>

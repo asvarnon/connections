@@ -2,6 +2,7 @@ package com.home.connections.dao.impl;
 
 import com.home.connections.dao.ArtisanDao;
 import com.home.connections.dto.ArtisanDto;
+import com.home.connections.dto.PlayerDto;
 import com.home.connections.mappers.ArtisanMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,9 @@ public class ArtisanDaoImpl implements ArtisanDao {
         return artisanMapper.getArtisansByType(artisanType);
     }
 
+    @Override
+    public List<PlayerDto> getPlayersByArtisan(String artisanName) {
+        return artisanMapper.getPlayersByArtisan(artisanName);
+    }
 
 }
