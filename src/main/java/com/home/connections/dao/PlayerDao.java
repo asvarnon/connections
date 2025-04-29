@@ -8,4 +8,8 @@ public interface PlayerDao {
     List<PlayerDto> getAllPlayers();
 
     List<PlayerDto> getPlayersByArchetype(String archetypeName);
+
+    List<PlayerDto> getPlayersFull();
+
+    PlayerDto getPlayerByName(String playerName);
 }

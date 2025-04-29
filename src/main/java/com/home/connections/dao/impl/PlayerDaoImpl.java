@@ -25,4 +25,15 @@ public class PlayerDaoImpl implements PlayerDao {
         return playerMapper.getPlayersByArchetype(archetypeName);
     }
 
+    @Override
+    public List<PlayerDto> getPlayersFull() {
+        return playerMapper.getPlayersFull();
+    }
+
+    @Override
+    public PlayerDto getPlayerByName(String playerName) {
+        return playerMapper.getPlayerByName(playerName);
+    }
+
+
 }

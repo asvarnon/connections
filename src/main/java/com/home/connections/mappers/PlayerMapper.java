@@ -15,4 +15,8 @@ public interface PlayerMapper {
     // Get players filtered by archetype name
     List<PlayerDto> getPlayersByArchetype(@Param("archetypeName") String archetypeName);
 
+    List<PlayerDto> getPlayersFull();
+
+    PlayerDto getPlayerByName(String playerName);
+
 }

@@ -26,5 +26,17 @@ public class PlayerServiceImpl implements PlayerService {
         return playerDao.getPlayersByArchetype(archetypeName);
     }
 
+    @Override
+    public List<PlayerDto> getPlayersFull() {
+        return playerDao.getPlayersFull();
+    }
+
+    @Override
+    public PlayerDto getPlayerByName(String playerName) {
+        return playerDao.getPlayerByName(playerName);
+    }
+
+
+
 
 }

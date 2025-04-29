@@ -3,6 +3,8 @@ package com.home.connections.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -15,5 +17,6 @@ public class PlayerDto {
     private Integer playerId;
     private String playerName;
     private String archetypeName;
+    private List<ArtisanDto> artisans;
 
 }

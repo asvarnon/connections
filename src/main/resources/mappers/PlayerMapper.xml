@@ -26,6 +26,51 @@
         ORDER BY p.player_id ASC
     </select>
 
+    <select id="getPlayersFull" resultMap="PlayersFullResultMap">
+        SELECT
+            p.player_id AS playerId,
+            p.player_name AS playerName,
+            a.archetype_name AS archetypeName,
+            pa.artisan_level AS artisanLevel,
+            ar.artisan_id AS artisanId,
+            ar.artisan_name AS artisanName,
+            ar.artisan_type AS artisanType
+        FROM PLAYER p
+                 LEFT JOIN PRIMARY_ARCHETYPE a ON p.primary_archetype_id = a.primary_archetype_id
+                 LEFT JOIN PLAYER_ARTISAN pa ON pa.player_id = p.player_id
+                 LEFT JOIN ARTISAN ar ON pa.artisan_id = ar.artisan_id
+        ORDER BY p.player_name
+    </select>
+
+    <select id="getPlayerByName" resultMap="PlayersFullResultMap" parameterType="String">
+        SELECT
+            p.player_id AS playerId,
+            p.player_name AS playerName,
+            a.archetype_name AS archetypeName,
+            pa.artisan_level AS artisanLevel,
+            ar.artisan_id AS artisanId,
+            ar.artisan_name AS artisanName,
+            ar.artisan_type AS artisanType
+        FROM PLAYER p
+                 LEFT JOIN PRIMARY_ARCHETYPE a ON p.primary_archetype_id = a.primary_archetype_id
+                 LEFT JOIN PLAYER_ARTISAN pa ON pa.player_id = p.player_id
+                 LEFT JOIN ARTISAN ar ON pa.artisan_id = ar.artisan_id
+        WHERE LOWER(p.player_name) = LOWER(#{playerName})
+        ORDER BY p.player_name
+    </select>
+
+    <resultMap id="PlayersFullResultMap" type="com.home.connections.dto.PlayerDto">
+        <id property="playerId" column="playerId" />
+        <result property="playerName" column="playerName" />
+        <result property="archetypeName" column="archetypeName" />
+        <collection property="artisans" ofType="com.home.connections.dto.ArtisanDto">
+            <id property="artisanId" column="artisanId" />
+            <result property="artisanName" column="artisanName" />
+            <result property="artisanType" column="artisanType" />
+        </collection>
+    </resultMap>
+
+
 
 
 </mapper>
