@@ -21,7 +21,7 @@ public class HelpCommand implements Command {
                     - Examples:
                         - `!info player`: Lists all players.
                         - `!info player <name>`: Fetches a player by name.
-                        - `!info player <archetype>`: Filters players by their archetype (e.g., healer, DPS).
+                        - `!info player <archetype>`: Filters players by their archetype (e.g., cleric, ranger).
                 - `artisan`: Retrieve information about artisans.
                     - Examples:
                         - `!info artisan`: Lists all artisans.

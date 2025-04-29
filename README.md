@@ -29,7 +29,7 @@ These commands return all available information for a specific entity.
 These commands include criteria to narrow down the search for more specific results.
 
 - **Player Commands**:
-    - `!info player <archetype>`: Fetches players by their archetype (e.g., healer, DPS).
+    - `!info player <archetype>`: Fetches players by their archetype (e.g., cleric, ranger).
     - `!info player <name>`: Fetches detailed information about a player by name.
 - **Artisan Commands**:
     - `!info artisan <artisan-type>`: Fetches all artisans of a specific artisan type (e.g., blacksmith, alchemist).
