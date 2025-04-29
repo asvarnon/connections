@@ -5,6 +5,7 @@ import com.home.connections.dto.ItemDto;
 import com.home.connections.services.ItemsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class ItemsServiceImpl implements ItemsService {
 
     @Autowired
     public ItemsDao itemsDao;
+
+    @Value("${spring.datasource.url}")
+    String url;
 
     @Override
     public List<ItemDto> getAllItems() {
