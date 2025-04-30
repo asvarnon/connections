@@ -1,6 +1,7 @@
 package com.home.connections.services.impl;
 
 import com.home.connections.listener.BotEventListener;
+import com.home.connections.listener.UserJoinListener;
 import com.home.connections.services.DiscordBotService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
@@ -22,6 +23,9 @@ public class DiscordBotServiceImpl implements DiscordBotService {
     @Autowired
     private BotEventListener botEventListener;
 
+    @Autowired
+    private UserJoinListener userJoinListener;
+
 
     @PostConstruct
     public void startBot() throws Exception {
@@ -34,7 +38,7 @@ public class DiscordBotServiceImpl implements DiscordBotService {
         );
 
         builder.setActivity(Activity.playing("Spring Boot & Discord!")); // Set bot's activity
-        builder.addEventListeners(botEventListener); // Register your event listeners
+        builder.addEventListeners(botEventListener, userJoinListener); // Register your event listeners
 
         // Build and wait for the bot to be ready
         this.jda = builder.build();
