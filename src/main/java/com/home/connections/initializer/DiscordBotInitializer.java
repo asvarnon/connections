@@ -1,8 +1,7 @@
-package com.home.connections.services.impl;
+package com.home.connections.initializer;
 
 import com.home.connections.listener.BotEventListener;
 import com.home.connections.listener.UserJoinListener;
-import com.home.connections.services.DiscordBotService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -13,7 +12,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DiscordBotServiceImpl implements DiscordBotService {
+public class DiscordBotInitializer {
 
     @Value("${discord.bot.token}")
     private String botToken;
