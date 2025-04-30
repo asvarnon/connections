@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * It registers the user in the database and sends a welcome message.
  *
  */
-
 @Component
 public class UserJoinListener extends ListenerAdapter {
 
