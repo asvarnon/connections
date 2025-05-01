@@ -77,7 +77,7 @@ public class DiscordBotInitializer {
         // Build and wait for the bot to be ready
         this.jda = builder.build();
         jda.awaitReady(); // Make sure the bot is fully loaded before proceeding
-        System.out.println("Bot has started successfully!");
+        logger.info("Bot has started successfully!");
     }
 
 
