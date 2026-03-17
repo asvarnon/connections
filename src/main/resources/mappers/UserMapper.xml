@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.connections.mappers.UserMapper">
+
+    <insert id="insertUser" parameterType="map">
+        INSERT INTO DISCORD_USER (DISCORD_ID, USERNAME)
+        VALUES (#{discordId}, #{username})
+    </insert>
+
+    <select id="userExists" parameterType="string" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM DISCORD_USER
+        WHERE DISCORD_ID = #{discordId}
+    </select>
+
+</mapper>

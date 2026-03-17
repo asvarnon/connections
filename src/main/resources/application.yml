@@ -11,6 +11,15 @@ spring:
       connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = ${DB_USERNAME}
       connection-test-query: SELECT 1 FROM DUAL
 
+discord:
+  bot:
+    token: ${DISC_BOT_KEY}
+    prefix: "!"
+    intents:
+      - GUILD_MESSAGES
+      - GUILD_VOICE_STATES
+      - GUILD_MEMBERS
+      - GUILD_PRESENCES
 
 # MyBatis Configuration
 mybatis:
@@ -29,7 +38,6 @@ logging:
     org.springframework: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file:
-    name: logs/application.log
+
 
 
